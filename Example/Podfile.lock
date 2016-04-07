@@ -1,0 +1,14 @@
+PODS:
+  - DataProvider (0.1.0)
+
+DEPENDENCIES:
+  - DataProvider (from `../`)
+
+EXTERNAL SOURCES:
+  DataProvider:
+    :path: ../
+
+SPEC CHECKSUMS:
+  DataProvider: 78db95bd0b83ed2d84c337bc95b1631b93e05e39
+
+COCOAPODS: 0.39.0
