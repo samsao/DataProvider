@@ -17,18 +17,15 @@ Pod::Spec.new do |s|
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!  
 
-  s.homepage         = "https://github.com/Guilherme92Dev/DataProvider.git"
+  s.homepage         = "https://github.com/samsao/DataProvider.git"
   s.license          = 'MIT'
   s.author           = { "Guilherme Lisboa" => "glisboa@samsaodev.com" }
-  s.source           = { :git => "https://github.com/Guilherme92Dev/DataProvider.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/samsao/DataProvider.git", :tag => s.version.to_s }
 
   s.platform     = :ios, '8.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
-  s.resource_bundles = {
-    'DataProvider' => ['Pod/Assets/*.png']
-  }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
