@@ -47,7 +47,7 @@ class CollectionViewExampleController: UIViewController {
     }
     
     func resetData() {
-        let sectionData : [[String : [Any]]] = [[kCellRID : Person.peopleCollection()]]
+        let sectionData : [[String : [Person]]] = [[kCellRID : Person.peopleCollection()]]
         
         let sections = ProviderSection.sectionsCollectionWithData(sectionData)
         provider.updateProviderData(sections)

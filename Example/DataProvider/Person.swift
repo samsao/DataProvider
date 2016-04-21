@@ -18,8 +18,8 @@ class Person {
     }
     
     
-    static func peopleCollection() -> [Any] {
-        var people = [Any]()
+    static func peopleCollection() -> [Person] {
+        var people = [Person]()
         var person : Person!
         for i in 0..<10 {
             person = Person(name: "PersonName", lastName: String(i))

@@ -38,7 +38,7 @@ public struct ProviderItem {
      
      - returns: collection of provider items with data.
      */
-    public static func itemsCollectionWithData(dataArray : [Any], cellReuseIdentifier : String) -> [ProviderItem] {
+    public static func itemsCollectionWithData<T>(dataArray : [T], cellReuseIdentifier : String) -> [ProviderItem] {
         var items = [ProviderItem]()
         for data in dataArray {
             let item: ProviderItem = ProviderItem(data: data, cellReuseIdentifier: cellReuseIdentifier)
