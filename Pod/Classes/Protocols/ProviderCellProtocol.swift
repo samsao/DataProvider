@@ -9,11 +9,11 @@
 import Foundation
 
 public protocol ProviderCellProtocol {
-    
-    /**
-     Configure the cell with received data.
-     
-     - parameter cellData: data object in provider item.
-     */
-    func configureCell(cellData : Any)
+
+	/**
+	 Configure the cell with received data.
+
+	 - parameter cellData: data object in provider item.
+	 */
+	func configureCell(cellData: Any)
 }
