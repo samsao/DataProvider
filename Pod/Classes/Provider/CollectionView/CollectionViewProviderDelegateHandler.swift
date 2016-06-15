@@ -6,16 +6,15 @@
 //
 //
 
-
 public class CollectionViewProviderDelegateHandler: NSObject, UICollectionViewDelegate {
-    
-    public weak var provider : CollectionViewProvider!
-    // MARK: UICollectionViewDelegate
-    public func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
-        self.provider.delegate?.provider(self.provider, didDeselectCellAtIndexPath: indexPath)
-    }
-    
-    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.provider.delegate?.provider(self.provider, didSelectCellAtIndexPath: indexPath)
-    }
+
+	public weak var provider: CollectionViewProvider!
+	// MARK: UICollectionViewDelegate
+	public func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+		self.provider.delegate?.provider(self.provider, didDeselectCellAtIndexPath: indexPath)
+	}
+
+	public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+		self.provider.delegate?.provider(self.provider, didSelectCellAtIndexPath: indexPath)
+	}
 }
