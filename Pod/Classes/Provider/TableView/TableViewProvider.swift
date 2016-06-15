@@ -68,7 +68,7 @@ public class TableViewProvider: Provider {
 	 - parameter removeBlock: block to remove the sections with. return true to remove, false otherwise.
 	 - parameter rowAnimation:     UITableViewRowAnimation for the deletion.
 	 */
-	public func removeSections(removeBlock: ProviderRemoveSectionBlock, rowAnimation: UITableViewRowAnimation = UITableViewRowAnimation.Automatic) {
+	public func removeSections(rowAnimation: UITableViewRowAnimation = UITableViewRowAnimation.Automatic, removeBlock: ProviderRemoveSectionBlock) {
 		let indexSet: NSIndexSet = super.removeSections(removeBlock)
 		self.tableView.deleteSections(indexSet, withRowAnimation: rowAnimation)
 	}
