@@ -34,7 +34,7 @@ public class CollectionViewProvider: Provider {
 		self.delegate = delegate
 		self.collectionView = collectionView
 		super.init(withSections: sections)
-		self.configureCollectionView(cellConfiguration, collectionDelegate: collectionDelegate, collectionDataSource: collectionDataSource)
+		self.configureCollectionView(configuration: cellConfiguration, collectionDelegate: collectionDelegate, collectionDataSource: collectionDataSource)
 	}
 	
 	// MARK: - Public API
@@ -44,8 +44,8 @@ public class CollectionViewProvider: Provider {
 	
 	- parameter sections:     sections to be added.
 	*/
-	public func addSections(_ sections: [ProviderSection]) {
-		let indexSet : IndexSet = super.addSections(sections)
+	public func addSections(sections: [ProviderSection]) {
+		let indexSet : IndexSet = super.addSections(sections: sections)
 		self.collectionView.insertSections(indexSet)
 	}
 	
@@ -55,8 +55,8 @@ public class CollectionViewProvider: Provider {
 	- parameter section:      section to be added.
 	- parameter index:        index of the section to be added.
 	*/
-	override public func addSection(_ section: ProviderSection, index: Int) {
-		super.addSection(section, index: index)
+	override public func addSection(section: ProviderSection, index: Int) {
+		super.addSection(section: section, index: index)
 		self.collectionView.insertSections(IndexSet(integer: index))
 	}
 	
@@ -65,7 +65,7 @@ public class CollectionViewProvider: Provider {
 	
 	- parameter removeBlock: block to remove the sections with. return true to remove, false otherwise.
 	*/
-	public func removeSections(_ removeBlock : ProviderRemoveSectionBlock) {
+	public func removeSections(removeBlock : ProviderRemoveSectionBlock) {
 		let indexSet : IndexSet = super.removeSections(removeBlock)
 		self.collectionView.deleteSections(indexSet)
 	}
@@ -87,9 +87,9 @@ public class CollectionViewProvider: Provider {
 	- parameter items:        items to be added.
 	- parameter sectionIndex: index of section to add items.
 	*/
-	override public func addItemsToProvider(_ items: [ProviderItem], inSection sectionIndex: Int) {
+	override public func addItemsToProvider(items: [ProviderItem], inSection sectionIndex: Int) {
 		let initialPosition = self.sections[sectionIndex].items.count
-		super.addItemsToProvider(items, inSection: sectionIndex)
+		super.addItemsToProvider(items: items, inSection: sectionIndex)
 		
 		var indexPaths : [IndexPath] = []
 		for i in initialPosition..<self.sections[sectionIndex].items.count {
@@ -106,12 +106,12 @@ public class CollectionViewProvider: Provider {
      - parameter items:        items to be inserted
      - parameter indexPath:    starting index path
      */
-    public func insertItemsToProvider(_ items: [ProviderItem], fromIndexPath indexPath: IndexPath) {
+    public func insertItemsToProvider(items: [ProviderItem], fromIndexPath indexPath: IndexPath) {
         var indexPaths = [IndexPath]()
         for (index, item) in items.enumerated() {
             let newIndexPath = IndexPath(row: indexPath.row + index, section: indexPath.section)
             indexPaths.append(newIndexPath)
-            super.addItemToProvider(item, atIndexPath: newIndexPath)
+            super.addItemToProvider(item: item, atIndexPath: newIndexPath)
         }
         self.collectionView.performBatchUpdates({ () -> Void in
             self.collectionView.insertItems(at: indexPaths)
@@ -124,8 +124,8 @@ public class CollectionViewProvider: Provider {
 	- parameter item:         item to be added.
 	- parameter indexPath:    index path to add the item.
 	*/
-	override public func addItemToProvider(_ item: ProviderItem, atIndexPath indexPath: IndexPath) {
-		super.addItemToProvider(item, atIndexPath: indexPath)
+	override public func addItemToProvider(item: ProviderItem, atIndexPath indexPath: IndexPath) {
+		super.addItemToProvider(item: item, atIndexPath: indexPath)
 		self.collectionView.performBatchUpdates({ () -> Void in
 			self.collectionView.insertItems(at: [indexPath])
 			}, completion: nil)
@@ -137,8 +137,8 @@ public class CollectionViewProvider: Provider {
      - parameter removeBlock:  Items to be removed from section.
      - parameter sectionIndex: index of the section to remove those items.
      */
-    public func removeItems(_ removeBlock : ProviderRemoveItemBlock, inSection sectionIndex: Int)  {
-        let indexSet : IndexSet = super.removeItems(removeBlock, inSection: sectionIndex)
+    public func removeItems(removeBlock : ProviderRemoveItemBlock, inSection sectionIndex: Int)  {
+        let indexSet : IndexSet = super.removeItems(removeBlock: removeBlock, inSection: sectionIndex)
         
         var indexPaths : [IndexPath] = []
 		for (index, _) in indexSet.enumerated() {
@@ -153,8 +153,8 @@ public class CollectionViewProvider: Provider {
      
      - parameter indexPaths:   index paths of items to be removed.
      */
-    public override func removeItems(_ indexPaths : [IndexPath]) {
-        super.removeItems(indexPaths)
+    public override func removeItems(indexPaths : [IndexPath]) {
+        super.removeItems(indexPaths: indexPaths)
         
         self.collectionView.performBatchUpdates({ 
             self.collectionView.deleteItems(at: indexPaths)
@@ -162,8 +162,8 @@ public class CollectionViewProvider: Provider {
     }
 	// MARK: Update
 	
-	override public func updateProviderData(_ newSections: [ProviderSection]) {
-		super.updateProviderData(newSections)
+	override public func updateProviderData(newSections: [ProviderSection]) {
+		super.updateProviderData(newSections: newSections)
 		self.collectionView.reloadData()
 	}
 	
@@ -173,8 +173,8 @@ public class CollectionViewProvider: Provider {
 	- parameter newItems:     new items for the section
 	- parameter sectionIndex: index of the section to update.
 	*/
-	override public func updateSectionData(_ newItems: [ProviderItem], sectionIndexToUpdate sectionIndex: Int) {
-		super.updateSectionData(newItems, sectionIndexToUpdate: sectionIndex)
+	override public func updateSectionData(newItems: [ProviderItem], sectionIndexToUpdate sectionIndex: Int) {
+		super.updateSectionData(newItems: newItems, sectionIndexToUpdate: sectionIndex)
 		self.collectionView.reloadSections(IndexSet(integer: sectionIndex))
 	}
 	
@@ -187,7 +187,7 @@ public class CollectionViewProvider: Provider {
 	- parameter collectionView: collection view to configure.
 	- parameter configuration:  provider cell configuration
 	*/
-    private func configureCollectionView(_ configuration : [ProviderConfiguration],
+    private func configureCollectionView(configuration : [ProviderConfiguration],
                                          collectionDelegate : CollectionViewProviderDelegateHandler, collectionDataSource : CollectionViewProviderDataSourceHandler) {
         
         collectionDelegate.provider = self

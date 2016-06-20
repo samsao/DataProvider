@@ -17,15 +17,15 @@ public class TableViewProviderDelegateHandler : NSObject, UITableViewDelegate {
     // MARK: - UITableViewDelegate
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.provider.delegate?.provider(self.provider, didSelectCellAtIndexPath: indexPath)
+        self.provider.delegate?.provider(provider: self.provider, didSelectCellAtIndexPath: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        self.provider.delegate?.provider(self.provider, didDeselectCellAtIndexPath: indexPath)
+        self.provider.delegate?.provider(provider: self.provider, didDeselectCellAtIndexPath: indexPath)
     }
     
     // MARK: Header
-    
+	
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return self.provider.sections[section].headerViewConfiguration?.view
     }

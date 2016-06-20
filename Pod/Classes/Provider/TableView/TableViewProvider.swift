@@ -34,7 +34,7 @@ public class TableViewProvider : Provider {
         self.delegate = delegate
         self.tableView = tableView        
 		super.init(withSections: sections)
-		self.configureTableView(cellConfiguration, tableDelegate: tableDelegate, tableDataSource: tableDataSource)
+		self.configureTableView(configuration: cellConfiguration, tableDelegate: tableDelegate, tableDataSource: tableDataSource)
 	}
     
 	// MARK: - Public API
@@ -45,8 +45,8 @@ public class TableViewProvider : Provider {
 	- parameter sections:     sections to be added.
 	- parameter rowAnimation: UITableViewRowAnimation for the sections.
 	*/
-	public func addSections(_ sections: [ProviderSection], rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
-		let indexSet : IndexSet = super.addSections(sections)
+	public func addSections(sections: [ProviderSection], rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
+		let indexSet : IndexSet = super.addSections(sections: sections)
 		self.tableView.insertSections(indexSet, with: rowAnimation)
 	}
 	
@@ -57,8 +57,8 @@ public class TableViewProvider : Provider {
 	- parameter index:        index of the section to be added.
 	- parameter rowAnimation: UITableViewRowAnimation for section insert.
 	*/
-	public func addSection(_ section: ProviderSection, index: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
-		super.addSection(section, index: index)
+	public func addSection(section: ProviderSection, index: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
+		super.addSection(section: section, index: index)
 		self.tableView.insertSections(IndexSet(integer: index), with: rowAnimation)
 	}
 	
@@ -92,9 +92,9 @@ public class TableViewProvider : Provider {
 	- parameter sectionIndex: index of section to add items.
 	- parameter rowAnimation: UITableViewRowAnimation for the insertion.
 	*/
-	public func addItemsToProvider(_ items: [ProviderItem], inSection sectionIndex: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
+	public func addItemsToProvider(items: [ProviderItem], inSection sectionIndex: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
 		let initialPosition = self.sections[sectionIndex].items.count
-		super.addItemsToProvider(items, inSection: sectionIndex)
+		super.addItemsToProvider(items: items, inSection: sectionIndex)
 		
 		var indexPaths : [IndexPath] = []
 		for i in initialPosition..<self.sections[sectionIndex].items.count {
@@ -110,12 +110,12 @@ public class TableViewProvider : Provider {
      - parameter indexPath:    starting index path
      - parameter rowAnimation: UITableViewRowAnimation for the insertion.
      */
-    public func insertItemsToProvider(_ items: [ProviderItem], fromIndexPath indexPath: IndexPath, rowAnimation: UITableViewRowAnimation) {
+    public func insertItemsToProvider(items: [ProviderItem], fromIndexPath indexPath: IndexPath, rowAnimation: UITableViewRowAnimation) {
         var indexPaths = [IndexPath]()
         for (index, item) in items.enumerated() {
             let newIndexPath = IndexPath(row: indexPath.row + index, section: indexPath.section)
             indexPaths.append(newIndexPath)
-            super.addItemToProvider(item, atIndexPath: newIndexPath)
+            super.addItemToProvider(item: item, atIndexPath: newIndexPath)
         }
         tableView.insertRows(at: indexPaths, with: rowAnimation)
     }
@@ -128,8 +128,8 @@ public class TableViewProvider : Provider {
 	- parameter indexPath:    index path to add the item.
 	- parameter rowAnimation: UITableViewRowAnimation for the insertion.
 	*/
-	public func addItemToProvider(_ item: ProviderItem, atIndexPath indexPath: IndexPath, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
-		super.addItemToProvider(item, atIndexPath: indexPath)
+	public func addItemToProvider(item: ProviderItem, atIndexPath indexPath: IndexPath, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
+		super.addItemToProvider(item: item, atIndexPath: indexPath)
 		
 		self.tableView.insertRows(at: [indexPath], with: rowAnimation)
 	}
@@ -143,8 +143,8 @@ public class TableViewProvider : Provider {
      - parameter sectionIndex: index of the section to remove those items.
      - parameter rowAnimation: row animation for the deletion.
      */
-    public func removeItems(_ removeBlock : ProviderRemoveItemBlock, inSection sectionIndex: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic)  {
-        let indexSet : IndexSet = super.removeItems(removeBlock, inSection: sectionIndex)
+    public func removeItems(removeBlock : ProviderRemoveItemBlock, inSection sectionIndex: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic)  {
+        let indexSet : IndexSet = super.removeItems(removeBlock: removeBlock, inSection: sectionIndex)
         
         var indexPaths : [IndexPath] = []
 		for (index, _) in indexSet.enumerated() {
@@ -160,16 +160,16 @@ public class TableViewProvider : Provider {
      - parameter indexPaths:   index paths of items to be removed.
      - parameter rowAnimation: row animation for the deletion.
      */
-    public func removeItems(_ indexPaths : [IndexPath], rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
-        super.removeItems(indexPaths)
+    public func removeItems(indexPaths : [IndexPath], rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
+        super.removeItems(indexPaths: indexPaths)
 		
         self.tableView.deleteRows(at: indexPaths, with: rowAnimation)
     }
     
 	// MARK: Update
 	
-	override public func updateProviderData(_ newSections: [ProviderSection]) {
-		super.updateProviderData(newSections)
+	override public func updateProviderData(newSections: [ProviderSection]) {
+		super.updateProviderData(newSections: newSections)
 		self.tableView.reloadData()
 	}
 	
@@ -180,8 +180,8 @@ public class TableViewProvider : Provider {
 	- parameter sectionIndex: index of the section to update.
 	- parameter rowAnimation: UITableViewRowAnimation for the operation.
 	*/
-	public func updateSectionData(_ newItems: [ProviderItem], sectionIndexToUpdate sectionIndex: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
-		super.updateSectionData(newItems, sectionIndexToUpdate: sectionIndex)
+	public func updateSectionData(newItems: [ProviderItem], sectionIndexToUpdate sectionIndex: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
+		super.updateSectionData(newItems: newItems, sectionIndexToUpdate: sectionIndex)
 		self.tableView.reloadSections(IndexSet(integer: sectionIndex), with: rowAnimation)
 	}
 	
@@ -194,7 +194,7 @@ public class TableViewProvider : Provider {
 	- parameter tableView:     table view to be configured.
 	- parameter configuration: extra configuration for cells if desired.
 	*/
-	private func configureTableView (_ configuration : [ProviderConfiguration], tableDelegate : TableViewProviderDelegateHandler, tableDataSource : TableViewProviderDataSourceHandler) {
+	private func configureTableView (configuration : [ProviderConfiguration], tableDelegate : TableViewProviderDelegateHandler, tableDataSource : TableViewProviderDataSourceHandler) {
         
         self.tableViewDelegate = tableDelegate
         self.tableViewDataSource = tableDataSource

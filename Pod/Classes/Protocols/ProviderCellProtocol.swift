@@ -15,5 +15,5 @@ public protocol ProviderCellProtocol {
      
      - parameter cellData: data object in provider item.
      */
-    func configureCell(_ cellData : Any)
+    func configureCell(cellData : Any)
 }

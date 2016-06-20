@@ -37,7 +37,7 @@ public class Provider {
     
     - returns: item at that index path.
     */
-    public func providerItemAtIndexPath(_ indexPath : IndexPath) -> ProviderItem? {
+    public func providerItemAtIndexPath(indexPath : IndexPath) -> ProviderItem? {
         if(indexPath.section < self.sections.count) {
             let section : ProviderSection = self.sections[indexPath.section]
             if(indexPath.row < section.items.count) {
@@ -57,7 +57,7 @@ public class Provider {
     
     - returns: indexset with added sections range.
     */
-    internal func addSections(_ sections : [ProviderSection]) -> IndexSet{
+    internal func addSections(sections : [ProviderSection]) -> IndexSet{
         var range : NSRange = NSRange()
         range.location = self.sections.count
         range.length = sections.count
@@ -72,7 +72,7 @@ public class Provider {
     - parameter section:   section to be added.
     - parameter index: index for the section to be added.
     */
-    internal func addSection(_ section : ProviderSection, index : Int) {
+    internal func addSection(section : ProviderSection, index : Int) {
         self.sections.insert(section, at: index)
         
     }
@@ -115,7 +115,7 @@ public class Provider {
     - parameter item:      item to be added.
     - parameter indexPath: index path to add this item at.
     */
-    internal func addItemToProvider(_ item : ProviderItem, atIndexPath indexPath : IndexPath) {
+    internal func addItemToProvider(item : ProviderItem, atIndexPath indexPath : IndexPath) {
         self.sections[indexPath.section].items.insert(item, at: indexPath.row)
     }
     
@@ -125,7 +125,7 @@ public class Provider {
      - parameter items:   items to be added.
      - parameter section: index of the provider section to add the items.
      */
-    internal func addItemsToProvider(_ items : [ProviderItem], inSection sectionIndex : Int) {
+    internal func addItemsToProvider(items : [ProviderItem], inSection sectionIndex : Int) {
         self.sections[sectionIndex].items.append(contentsOf: items)
     }
     
@@ -137,7 +137,7 @@ public class Provider {
      
      - returns: indexes of the deleted items in the section.
      */
-    internal func removeItems(_ removeBlock : ProviderRemoveItemBlock, inSection sectionIndex : Int) -> IndexSet{
+    internal func removeItems(removeBlock : ProviderRemoveItemBlock, inSection sectionIndex : Int) -> IndexSet{
         
         var indexSet = IndexSet()
         
@@ -157,7 +157,7 @@ public class Provider {
      
      - parameter indexPaths: index paths to be removed.
      */
-    internal func removeItems(_ indexPaths : [IndexPath]) {
+    internal func removeItems(indexPaths : [IndexPath]) {
         indexPaths.forEach { (indexPath) in
             self.sections[indexPath.section].items.remove(at: indexPath.row);
         }
@@ -170,7 +170,7 @@ public class Provider {
     
     - parameter newSections: new provider data.
     */
-    internal func updateProviderData(_ newSections : [ProviderSection]) {
+    internal func updateProviderData(newSections : [ProviderSection]) {
         self.sections = newSections
     }
     
@@ -180,7 +180,7 @@ public class Provider {
      - parameter newItems:     new section data.
      - parameter sectionIndex: index of the section to replace the data.
      */
-    internal func updateSectionData(_ newItems : [ProviderItem], sectionIndexToUpdate sectionIndex : Int) {
+    internal func updateSectionData(newItems : [ProviderItem], sectionIndexToUpdate sectionIndex : Int) {
         self.sections[sectionIndex].items = newItems
         
     }

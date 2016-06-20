@@ -61,7 +61,7 @@ public struct ProviderSection {
      - returns: collection of provider sections filled with data.
      */
 	//TODO: There's probably a better way to do this. The API is not really clean IMO - GC
-    public static func sectionsCollectionWithData<T>(_ sectionsData : [[String : [T]]]) -> [ProviderSection]{
+    public static func sectionsCollectionWithData<T>(sectionsData : [[String : [T]]]) -> [ProviderSection]{
         var sections = [ProviderSection]()
         var section : ProviderSection!
         var item : ProviderItem!
