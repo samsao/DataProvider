@@ -24,7 +24,7 @@ public class CollectionViewProviderDataSourceHandler: NSObject, UICollectionView
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellReusableIdentifier, for: indexPath)
         
         if let cellProtocol = cell as? ProviderCellProtocol {
-            cellProtocol.configureCell(item.data)
+            cellProtocol.configureCell(cellData: item.data)
         }
         
         return cell

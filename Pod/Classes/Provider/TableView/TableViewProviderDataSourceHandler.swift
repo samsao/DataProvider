@@ -29,7 +29,7 @@ public class TableViewProviderDataSourceHandler : NSObject, UITableViewDataSourc
         let cell = tableView.dequeueReusableCell(withIdentifier: providerItem.cellReusableIdentifier)! as UITableViewCell
         
         if let cellProtocol = cell as? ProviderCellProtocol {
-            cellProtocol.configureCell(providerItem.data)
+            cellProtocol.configureCell(cellData: providerItem.data)
         }
         return cell
     }

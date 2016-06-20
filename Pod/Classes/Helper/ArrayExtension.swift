@@ -19,7 +19,7 @@ internal extension Array {
 
         var removedIndexes = [Int]()
 		for (index, _) in indexSet.enumerated() {
-			self.remove(at: index - removedIndexes.numberOfElementsLessThan(index))
+			self.remove(at: index - removedIndexes.numberOfElementsLessThan(value: index))
 			removedIndexes.append(index)
 		}
     }
@@ -34,7 +34,7 @@ private extension Array where Element: Comparable {
      
      - returns: number of elements lower than the compared.
      */
-    func numberOfElementsLessThan(_ value : Element) -> Int {
+    func numberOfElementsLessThan(value : Element) -> Int {
         var amount = 0
         self.forEach { (element) in
             if (element < value) {
