@@ -15,14 +15,13 @@ internal extension Array {
      
      - parameter indexSet: index set to remove the objects.
      */
-    mutating func removeObjectsWithIndexSet(indexSet: NSIndexSet){
+    mutating func removeObjectsWith(indexSet: IndexSet){
 
         var removedIndexes = [Int]()
-        indexSet.enumerateIndexesUsingBlock { (index, stop) -> Void in
-            self.removeAtIndex(index - removedIndexes.numberOfElementsLessThan(index))
-            removedIndexes.append(index)
-        }
-        
+		for (index, _) in indexSet.enumerated() {
+			self.remove(at: index - removedIndexes.numberOfElementsLessThan(index))
+			removedIndexes.append(index)
+		}
     }
     
 }
@@ -35,7 +34,7 @@ private extension Array where Element: Comparable {
      
      - returns: number of elements lower than the compared.
      */
-    func numberOfElementsLessThan(value : Element) -> Int {
+    func numberOfElementsLessThan(_ value : Element) -> Int {
         var amount = 0
         self.forEach { (element) in
             if (element < value) {

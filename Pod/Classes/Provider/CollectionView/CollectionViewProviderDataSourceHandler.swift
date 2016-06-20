@@ -12,16 +12,16 @@ public class CollectionViewProviderDataSourceHandler: NSObject, UICollectionView
     
     // MARK: UICollectionViewDataSource
     
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.provider.sections[section].items.count
     }
     
-    public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return self.provider.sections.count
     }
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item : ProviderItem = self.provider.sections[indexPath.section].items[indexPath.row]
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(item.cellReusableIdentifier, forIndexPath: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellReusableIdentifier, for: indexPath)
         
         if let cellProtocol = cell as? ProviderCellProtocol {
             cellProtocol.configureCell(item.data)
