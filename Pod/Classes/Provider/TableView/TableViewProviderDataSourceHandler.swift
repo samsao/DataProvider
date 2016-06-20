@@ -15,18 +15,18 @@ public class TableViewProviderDataSourceHandler : NSObject, UITableViewDataSourc
     
     // MARK: UITableViewDataSource
     
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return self.provider.sections.count
     }
     
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.provider.sections[section].items.count
     }
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let providerItem : ProviderItem = self.provider.sections[indexPath.section].items[indexPath.row]
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(providerItem.cellReusableIdentifier)! as UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: providerItem.cellReusableIdentifier)! as UITableViewCell
         
         if let cellProtocol = cell as? ProviderCellProtocol {
             cellProtocol.configureCell(providerItem.data)
