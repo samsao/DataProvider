@@ -185,6 +185,14 @@ public class TableViewProvider : Provider {
 		super.updateSectionData(newItems, sectionIndexToUpdate: sectionIndex)
 		self.tableView.reloadSections(NSIndexSet(index: sectionIndex), withRowAnimation: rowAnimation)
 	}
+
+	/**
+	Set dategate and dataSource of tableView to nil.
+	*/
+	override public func nullifyDelegates() {
+		tableView.delegate = nil
+		tableView.dataSource = nil
+	}
 	
 	// MARK: - Private API
 	// MARK: Configuration
