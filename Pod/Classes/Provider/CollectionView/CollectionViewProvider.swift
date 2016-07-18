@@ -178,6 +178,14 @@ public class CollectionViewProvider: Provider {
 		super.updateSectionData(newItems, sectionIndexToUpdate: sectionIndex)
 		self.collectionView.reloadSections(NSIndexSet(index: sectionIndex))
 	}
+
+	/**
+	Set dategate and dataSource of collectionView to nil.
+	*/
+	override public func nullifyDelegates() {
+		collectionView.delegate = nil
+		collectionView.dataSource = nil
+	}
 	
 	// MARK: - Private API
 	// MARK: Configuration
