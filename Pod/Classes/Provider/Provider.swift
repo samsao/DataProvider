@@ -6,8 +6,8 @@
 //
 //
 
-public typealias ProviderRemoveItemBlock = ((item : ProviderItem) -> Bool)
-public typealias ProviderRemoveSectionBlock = ((section : ProviderSection) -> Bool)
+public typealias ProviderRemoveItemBlock = ((_ item : ProviderItem) -> Bool)
+public typealias ProviderRemoveSectionBlock = ((_ section : ProviderSection) -> Bool)
 
 public class Provider {
     
@@ -97,7 +97,7 @@ public class Provider {
         
         for (index, section) in self.sections.enumerated() {
             
-            if removeBlock(section: section) {
+            if removeBlock(section) {
 				indexSet.insert(index)
             }
         }
@@ -143,7 +143,7 @@ public class Provider {
         
         for (index, item) in self.sections[sectionIndex].items.enumerated() {
             
-            if removeBlock(item: item) {
+            if removeBlock(item) {
                 indexSet.insert(index)
             }
         }
