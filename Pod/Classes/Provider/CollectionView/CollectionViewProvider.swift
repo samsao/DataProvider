@@ -34,7 +34,7 @@ public class CollectionViewProvider: Provider {
 		self.delegate = delegate
 		self.collectionView = collectionView
 		super.init(withSections: sections)
-		self.configureCollectionView(cellConfiguration, collectionDelegate: collectionDelegate, collectionDataSource: collectionDataSource)
+		self.configureCollectionView(configuration: cellConfiguration, collectionDelegate: collectionDelegate, collectionDataSource: collectionDataSource)
 	}
 	
 	// MARK: - Public API
@@ -45,7 +45,7 @@ public class CollectionViewProvider: Provider {
 	- parameter sections:     sections to be added.
 	*/
 	public func addSections(sections: [ProviderSection]) {
-		let indexSet : NSIndexSet = super.addSections(sections)
+		let indexSet : IndexSet = super.addSections(sections: sections)
 		self.collectionView.insertSections(indexSet)
 	}
 	
@@ -56,8 +56,8 @@ public class CollectionViewProvider: Provider {
 	- parameter index:        index of the section to be added.
 	*/
 	override public func addSection(section: ProviderSection, index: Int) {
-		super.addSection(section, index: index)
-		self.collectionView.insertSections(NSIndexSet(index: index))
+		super.addSection(section: section, index: index)
+		self.collectionView.insertSections(IndexSet(integer: index))
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public class CollectionViewProvider: Provider {
 	- parameter removeBlock: block to remove the sections with. return true to remove, false otherwise.
 	*/
 	public func removeSections(removeBlock : ProviderRemoveSectionBlock) {
-		let indexSet : NSIndexSet = super.removeSections(removeBlock)
+		let indexSet : IndexSet = super.removeSections(removeBlock)
 		self.collectionView.deleteSections(indexSet)
 	}
 	
@@ -75,8 +75,8 @@ public class CollectionViewProvider: Provider {
 	
 	- parameter indexes:      index set
 	*/
-	override public func removeSections(indexes: NSIndexSet) {
-		super.removeSections(indexes)
+	override public func removeSections(indexes: IndexSet) {
+		super.removeSections(indexes: indexes)
 		self.collectionView.deleteSections(indexes)
 	}
 	
@@ -89,14 +89,14 @@ public class CollectionViewProvider: Provider {
 	*/
 	override public func addItemsToProvider(items: [ProviderItem], inSection sectionIndex: Int) {
 		let initialPosition = self.sections[sectionIndex].items.count
-		super.addItemsToProvider(items, inSection: sectionIndex)
+		super.addItemsToProvider(items: items, inSection: sectionIndex)
 		
-		var indexPaths : [NSIndexPath] = []
+		var indexPaths : [IndexPath] = []
 		for i in initialPosition..<self.sections[sectionIndex].items.count {
-			indexPaths.append(NSIndexPath(forRow: i, inSection: sectionIndex))
+			indexPaths.append(IndexPath(row: i, section: sectionIndex))
 		}
 		self.collectionView.performBatchUpdates({ () -> Void in
-			self.collectionView.insertItemsAtIndexPaths(indexPaths)
+			self.collectionView.insertItems(at: indexPaths)
 			}, completion:  nil)
 	}
 	
@@ -106,15 +106,15 @@ public class CollectionViewProvider: Provider {
      - parameter items:        items to be inserted
      - parameter indexPath:    starting index path
      */
-    public func insertItemsToProvider(items: [ProviderItem], fromIndexPath indexPath: NSIndexPath) {
-        var indexPaths = [NSIndexPath]()
-        for (index, item) in items.enumerate() {
-            let newIndexPath = NSIndexPath(forRow: indexPath.row + index, inSection: indexPath.section)
+    public func insertItemsToProvider(items: [ProviderItem], fromIndexPath indexPath: IndexPath) {
+        var indexPaths = [IndexPath]()
+        for (index, item) in items.enumerated() {
+            let newIndexPath = IndexPath(row: indexPath.row + index, section: indexPath.section)
             indexPaths.append(newIndexPath)
-            super.addItemToProvider(item, atIndexPath: newIndexPath)
+            super.addItemToProvider(item: item, atIndexPath: newIndexPath)
         }
         self.collectionView.performBatchUpdates({ () -> Void in
-            self.collectionView.insertItemsAtIndexPaths(indexPaths)
+            self.collectionView.insertItems(at: indexPaths)
             }, completion:  nil)
     }
     
@@ -124,10 +124,10 @@ public class CollectionViewProvider: Provider {
 	- parameter item:         item to be added.
 	- parameter indexPath:    index path to add the item.
 	*/
-	override public func addItemToProvider(item: ProviderItem, atIndexPath indexPath: NSIndexPath) {
-		super.addItemToProvider(item, atIndexPath: indexPath)
+	override public func addItemToProvider(item: ProviderItem, atIndexPath indexPath: IndexPath) {
+		super.addItemToProvider(item: item, atIndexPath: indexPath)
 		self.collectionView.performBatchUpdates({ () -> Void in
-			self.collectionView.insertItemsAtIndexPaths([indexPath])
+			self.collectionView.insertItems(at: [indexPath])
 			}, completion: nil)
 	}
 	
@@ -138,15 +138,14 @@ public class CollectionViewProvider: Provider {
      - parameter sectionIndex: index of the section to remove those items.
      */
     public func removeItems(removeBlock : ProviderRemoveItemBlock, inSection sectionIndex: Int)  {
-        let indexSet : NSIndexSet = super.removeItems(removeBlock, inSection: sectionIndex)
+        let indexSet : IndexSet = super.removeItems(removeBlock: removeBlock, inSection: sectionIndex)
         
-        var indexPaths : [NSIndexPath] = []
-        
-        indexSet.enumerateIndexesUsingBlock { (index, stop) -> Void in
-            indexPaths.append(NSIndexPath(forRow: index, inSection: sectionIndex))
-        }
+        var indexPaths : [IndexPath] = []
+		for (index, _) in indexSet.enumerated() {
+			 indexPaths.append(IndexPath(row: index, section: sectionIndex))
+		}
         self.collectionView.performBatchUpdates({ () -> Void in
-            self.collectionView.deleteItemsAtIndexPaths(indexPaths)
+            self.collectionView.deleteItems(at: indexPaths)
             }, completion: nil)
     }
     /**
@@ -154,17 +153,17 @@ public class CollectionViewProvider: Provider {
      
      - parameter indexPaths:   index paths of items to be removed.
      */
-    public override func removeItems(indexPaths : [NSIndexPath]) {
-        super.removeItems(indexPaths)
+    public override func removeItems(indexPaths : [IndexPath]) {
+        super.removeItems(indexPaths: indexPaths)
         
         self.collectionView.performBatchUpdates({ 
-            self.collectionView.deleteItemsAtIndexPaths(indexPaths)
+            self.collectionView.deleteItems(at: indexPaths)
             }, completion: nil)
     }
 	// MARK: Update
 	
 	override public func updateProviderData(newSections: [ProviderSection]) {
-		super.updateProviderData(newSections)
+		super.updateProviderData(newSections: newSections)
 		self.collectionView.reloadData()
 	}
 	
@@ -175,8 +174,16 @@ public class CollectionViewProvider: Provider {
 	- parameter sectionIndex: index of the section to update.
 	*/
 	override public func updateSectionData(newItems: [ProviderItem], sectionIndexToUpdate sectionIndex: Int) {
-		super.updateSectionData(newItems, sectionIndexToUpdate: sectionIndex)
-		self.collectionView.reloadSections(NSIndexSet(index: sectionIndex))
+		super.updateSectionData(newItems: newItems, sectionIndexToUpdate: sectionIndex)
+		self.collectionView.reloadSections(IndexSet(integer: sectionIndex))
+	}
+
+	/**
+	Set dategate and dataSource of collectionView to nil.
+	*/
+	override public func nullifyDelegates() {
+		collectionView.delegate = nil
+		collectionView.dataSource = nil
 	}
 	
 	// MARK: - Private API
@@ -202,9 +209,9 @@ public class CollectionViewProvider: Provider {
 		
 		for config in configuration {
 			if (config.cellClass != nil) {
-				collectionView.registerClass(config.cellClass, forCellWithReuseIdentifier: config.cellReuseIdentifier)
+				collectionView.register(config.cellClass, forCellWithReuseIdentifier: config.cellReuseIdentifier)
 			} else {
-				collectionView.registerNib(UINib(nibName: config.cellNibName!, bundle: config.nibBundle), forCellWithReuseIdentifier: config.cellReuseIdentifier)
+				collectionView.register(UINib(nibName: config.cellNibName!, bundle: config.nibBundle), forCellWithReuseIdentifier: config.cellReuseIdentifier)
 			}
 		}
 	}

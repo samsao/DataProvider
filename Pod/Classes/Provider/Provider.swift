@@ -6,8 +6,8 @@
 //
 //
 
-public typealias ProviderRemoveItemBlock = ((item : ProviderItem) -> Bool)
-public typealias ProviderRemoveSectionBlock = ((section : ProviderSection) -> Bool)
+public typealias ProviderRemoveItemBlock = ((_ item : ProviderItem) -> Bool)
+public typealias ProviderRemoveSectionBlock = ((_ section : ProviderSection) -> Bool)
 
 public class Provider {
     
@@ -37,7 +37,7 @@ public class Provider {
     
     - returns: item at that index path.
     */
-    public func providerItemAtIndexPath(indexPath : NSIndexPath) -> ProviderItem? {
+    public func providerItemAtIndexPath(indexPath : IndexPath) -> ProviderItem? {
         if(indexPath.section < self.sections.count) {
             let section : ProviderSection = self.sections[indexPath.section]
             if(indexPath.row < section.items.count) {
@@ -57,12 +57,12 @@ public class Provider {
     
     - returns: indexset with added sections range.
     */
-    internal func addSections(sections : [ProviderSection]) -> NSIndexSet{
+    internal func addSections(sections : [ProviderSection]) -> IndexSet{
         var range : NSRange = NSRange()
         range.location = self.sections.count
         range.length = sections.count
-        let indexSet : NSIndexSet = NSIndexSet(indexesInRange: range)
-        self.sections.appendContentsOf(sections)
+        let indexSet : IndexSet = IndexSet(integersIn: range.toRange() ?? 0..<0)
+        self.sections.append(contentsOf: sections)
         return indexSet
     }
     
@@ -73,7 +73,7 @@ public class Provider {
     - parameter index: index for the section to be added.
     */
     internal func addSection(section : ProviderSection, index : Int) {
-        self.sections.insert(section, atIndex: index)
+        self.sections.insert(section, at: index)
         
     }
     
@@ -82,8 +82,8 @@ public class Provider {
      
      - parameter indexes: index set with sections indexes to be deleted.
      */
-    internal func removeSections(indexes : NSIndexSet) {
-        self.sections.removeObjectsWithIndexSet(indexes)
+    internal func removeSections(indexes : IndexSet) {
+        self.sections.removeObjectsWith(indexSet: indexes)
     }
     
     /**
@@ -92,16 +92,17 @@ public class Provider {
      - parameter sectionsToRemove: array of sections to remove in the provider.
      - returns: index set of removed sections.
      */
-    internal func removeSections(removeBlock : ProviderRemoveSectionBlock) -> NSIndexSet {
-        let indexSet = NSMutableIndexSet()
+    internal func removeSections(_ removeBlock : ProviderRemoveSectionBlock) -> IndexSet {
+        var indexSet = IndexSet()
         
-        for (index, section) in self.sections.enumerate() {
+        for (index, section) in self.sections.enumerated() {
             
-            if removeBlock(section: section) {
-                indexSet.addIndex(index)
+            if removeBlock(section) {
+				indexSet.insert(index)
             }
         }
-        self.sections.removeObjectsWithIndexSet(indexSet)
+		
+        self.sections.removeObjectsWith(indexSet: indexSet)
         
         return indexSet
     }
@@ -114,8 +115,8 @@ public class Provider {
     - parameter item:      item to be added.
     - parameter indexPath: index path to add this item at.
     */
-    internal func addItemToProvider(item : ProviderItem, atIndexPath indexPath : NSIndexPath) {
-        self.sections[indexPath.section].items.insert(item, atIndex: indexPath.row)
+    internal func addItemToProvider(item : ProviderItem, atIndexPath indexPath : IndexPath) {
+        self.sections[indexPath.section].items.insert(item, at: indexPath.row)
     }
     
     /**
@@ -125,7 +126,7 @@ public class Provider {
      - parameter section: index of the provider section to add the items.
      */
     internal func addItemsToProvider(items : [ProviderItem], inSection sectionIndex : Int) {
-        self.sections[sectionIndex].items.appendContentsOf(items)
+        self.sections[sectionIndex].items.append(contentsOf: items)
     }
     
     /**
@@ -136,18 +137,18 @@ public class Provider {
      
      - returns: indexes of the deleted items in the section.
      */
-    internal func removeItems(removeBlock : ProviderRemoveItemBlock, inSection sectionIndex : Int) -> NSIndexSet{
+    internal func removeItems(removeBlock : ProviderRemoveItemBlock, inSection sectionIndex : Int) -> IndexSet{
         
-        let indexSet = NSMutableIndexSet()
+        var indexSet = IndexSet()
         
-        for (index, item) in self.sections[sectionIndex].items.enumerate() {
+        for (index, item) in self.sections[sectionIndex].items.enumerated() {
             
-            if removeBlock(item: item) {
-                indexSet.addIndex(index)
+            if removeBlock(item) {
+                indexSet.insert(index)
             }
         }
-
-        self.sections[sectionIndex].items.removeObjectsWithIndexSet(indexSet)
+		
+        self.sections[sectionIndex].items.removeObjectsWith(indexSet: indexSet)
         return indexSet
     }
     
@@ -156,9 +157,9 @@ public class Provider {
      
      - parameter indexPaths: index paths to be removed.
      */
-    internal func removeItems(indexPaths : [NSIndexPath]) {
+    internal func removeItems(indexPaths : [IndexPath]) {
         indexPaths.forEach { (indexPath) in
-            self.sections[indexPath.section].items.removeAtIndex(indexPath.row);
+            self.sections[indexPath.section].items.remove(at: indexPath.row);
         }
     }
     
@@ -184,7 +185,7 @@ public class Provider {
         
     }
     
-    
-    
-    
+	internal func nullifyDelegates() {
+		return
+	}
 }

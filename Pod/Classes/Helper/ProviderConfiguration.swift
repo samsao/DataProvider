@@ -15,7 +15,7 @@ public struct ProviderConfiguration {
     internal let cellReuseIdentifier : String
     internal let cellClass : AnyClass?
     internal let cellNibName : String?
-    internal let nibBundle : NSBundle?
+    internal let nibBundle : Bundle?
 	
     public init(reuseIdentifier : String, cellClass : AnyClass) {
         self.cellReuseIdentifier = reuseIdentifier
@@ -24,7 +24,7 @@ public struct ProviderConfiguration {
 		self.nibBundle = nil
     }
     
-    public init(reuseIdentifier : String, cellNibName : String, nibBundle : NSBundle? = nil) {
+    public init(reuseIdentifier : String, cellNibName : String, nibBundle : Bundle? = nil) {
         self.cellReuseIdentifier = reuseIdentifier
         self.cellNibName = cellNibName
         self.nibBundle = nibBundle

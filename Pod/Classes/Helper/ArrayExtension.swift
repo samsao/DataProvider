@@ -15,14 +15,13 @@ internal extension Array {
      
      - parameter indexSet: index set to remove the objects.
      */
-    mutating func removeObjectsWithIndexSet(indexSet: NSIndexSet){
+    mutating func removeObjectsWith(indexSet: IndexSet){
 
         var removedIndexes = [Int]()
-        indexSet.enumerateIndexesUsingBlock { (index, stop) -> Void in
-            self.removeAtIndex(index - removedIndexes.numberOfElementsLessThan(index))
-            removedIndexes.append(index)
-        }
-        
+		for (index, _) in indexSet.enumerated() {
+			self.remove(at: index - removedIndexes.numberOfElementsLessThan(value: index))
+			removedIndexes.append(index)
+		}
     }
     
 }
