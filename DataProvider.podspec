@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "DataProvider"
-  s.version          = "1.0.0"
+  s.version          = "1.1.0"
   s.summary          = "Data provider is a library made to abstract Table and Collection views boilerplate code. It's all made in Swift!"
 
 # This description is used to generate tags and improve search results.
