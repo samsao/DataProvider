@@ -15,13 +15,13 @@ class CustomCollectionCell: UICollectionViewCell,ProviderCellProtocol {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.createView()
-        self.backgroundColor = UIColor.blackColor()
+        self.backgroundColor = UIColor.black
     }
     
     private func createView() {
         let frame = CGRect(x: self.frame.size.width/4, y: self.frame.size.height/4, width: self.frame.size.width, height: self.frame.size.height)
         let label = UILabel(frame: frame)
-        label.textColor = UIColor.whiteColor()
+        label.textColor = UIColor.white
         self.addSubview(label)
         self.label = label
     }

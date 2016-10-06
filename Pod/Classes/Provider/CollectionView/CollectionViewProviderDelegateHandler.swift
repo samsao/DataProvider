@@ -11,11 +11,11 @@ public class CollectionViewProviderDelegateHandler: NSObject, UICollectionViewDe
     
     public weak var provider : CollectionViewProvider!
     // MARK: UICollectionViewDelegate
-    public func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
-        self.provider.delegate?.provider(self.provider, didDeselectCellAtIndexPath: indexPath)
+    public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+		self.provider.delegate?.provider(provider: self.provider, didDeselectCellAtIndexPath: indexPath)
     }
     
-    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.provider.delegate?.provider(self.provider, didSelectCellAtIndexPath: indexPath)
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.provider.delegate?.provider(provider: self.provider, didSelectCellAtIndexPath: indexPath)
     }
 }

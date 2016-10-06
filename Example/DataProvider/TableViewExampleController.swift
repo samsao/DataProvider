@@ -16,7 +16,7 @@ class TableViewExampleController: UIViewController {
     private var tableView : UITableView!
     private var provider : TableViewProvider!
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
@@ -26,9 +26,9 @@ class TableViewExampleController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView = UITableView(frame: view.frame,style: UITableViewStyle.Grouped)
+        tableView = UITableView(frame: view.frame,style: UITableViewStyle.grouped)
         view.addSubview(tableView)
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(TableViewExampleController.addPerson)), UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: #selector(TableViewExampleController.resetData))]
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(TableViewExampleController.addPerson)), UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.refresh, target: self, action: #selector(TableViewExampleController.resetData))]
         self.createProvider()
     }
     
@@ -42,7 +42,7 @@ class TableViewExampleController: UIViewController {
         view.backgroundColor = bgColor
         let label = UILabel(frame: view.frame)
         label.text = text
-        label.textColor = UIColor.whiteColor()
+        label.textColor = .white
         view.addSubview(label)
         
         //Initialize the configuration sending your view as parameter. You can also set a custom height for the configuration in case your view uses autolayout
@@ -52,30 +52,30 @@ class TableViewExampleController: UIViewController {
     
     func addPerson() {
         let item = ProviderItem(data: Person(name: "PersonName", lastName: "\(NSDate())"), cellReuseIdentifier: kCellRID)
-        provider.addItemsToProvider([item], inSection: 0, rowAnimation: UITableViewRowAnimation.Automatic)
+        provider.addItemsToProvider(items: [item], inSection: 0, rowAnimation: UITableViewRowAnimation.automatic)
     }
     
     func resetData() {
-        let headerConfig = self.createSectionViewConfig("Section 1 Header", bgColor: UIColor.blackColor())
-        let footerConfig = self.createSectionViewConfig("Section 1 Footer", bgColor: UIColor.lightGrayColor())
-        let section1 = ProviderSection(items: ProviderItem.itemsCollectionWithData(Person.peopleCollection(), cellReuseIdentifier: kCellRID), headerViewConfig: headerConfig, footerViewConfig: footerConfig)
+        let headerConfig = self.createSectionViewConfig(text: "Section 1 Header", bgColor: UIColor.black)
+        let footerConfig = self.createSectionViewConfig(text: "Section 1 Footer", bgColor: .lightGray)
+        let section1 = ProviderSection(items: ProviderItem.itemsCollectionWithData(dataArray: Person.peopleCollection(), cellReuseIdentifier: kCellRID), headerViewConfig: headerConfig, footerViewConfig: footerConfig)
         
         
         
-        let headerConfig2 = self.createSectionViewConfig("Section 2 Header", bgColor: UIColor.blackColor())
-        let footerConfig2 = self.createSectionViewConfig("Section 2 Footer", bgColor: UIColor.lightGrayColor())
-        let section2 = ProviderSection(items: ProviderItem.itemsCollectionWithData(Person.peopleCollection(), cellReuseIdentifier: kCellRID), headerViewConfig: headerConfig2, footerViewConfig: footerConfig2)
+        let headerConfig2 = self.createSectionViewConfig(text: "Section 2 Header", bgColor: .black)
+        let footerConfig2 = self.createSectionViewConfig(text: "Section 2 Footer", bgColor: .lightGray)
+        let section2 = ProviderSection(items: ProviderItem.itemsCollectionWithData(dataArray: Person.peopleCollection(), cellReuseIdentifier: kCellRID), headerViewConfig: headerConfig2, footerViewConfig: footerConfig2)
         
         
         
-        provider.updateProviderData([section1,section2])
+        provider.updateProviderData(newSections: [section1,section2])
     }
     
     private func createProvider() {
         let data = Person.peopleCollection()
         
         //Create the items and sections for the provider to use.
-        let providerItems : [ProviderItem] = ProviderItem.itemsCollectionWithData(data, cellReuseIdentifier: kCellRID)
+        let providerItems : [ProviderItem] = ProviderItem.itemsCollectionWithData(dataArray: data, cellReuseIdentifier: kCellRID)
         let section = ProviderSection(items: providerItems)
         
         //Optional provider configuration
@@ -88,39 +88,54 @@ class TableViewExampleController: UIViewController {
 }
 
 extension TableViewExampleController : TableViewProviderDelegate {
-    func provider(provider: TableViewProvider, didDeselectCellAtIndexPath indexPath: NSIndexPath) {
+    /**
+     Called when a cell of the table view is deselected.
+     
+     - parameter provider:  table view provider object.
+     - parameter indexPath: index path of the selected item.
+     */
+
+    public func provider(provider: TableViewProvider, didDeselectCellAtIndexPath indexPath: IndexPath) {
         
     }
     
-    func provider(provider : TableViewProvider, didSelectCellAtIndexPath indexPath : NSIndexPath) {
-        let item : ProviderItem = provider.providerItemAtIndexPath(indexPath)!
+    public func provider(provider : TableViewProvider, didSelectCellAtIndexPath indexPath: IndexPath) {
+        let item: ProviderItem = provider.providerItemAtIndexPath(indexPath: indexPath)!
         let data = item.data as! Person
         
-        let alert = UIAlertController(title: "selected cell", message: "person name: \(data.name,data.lastName)", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "selected cell", message: "person name: \(data.name,data.lastName)", preferredStyle: UIAlertControllerStyle.alert)
         
         //Delete row
-        alert.addAction(UIAlertAction(title: "Delete Cell", style: UIAlertActionStyle.Destructive, handler: {[weak self] (action) -> Void in
+        alert.addAction(UIAlertAction(title: "Delete Cell", style: UIAlertActionStyle.destructive, handler: {[weak self] (action) -> Void in
             //You can either remove with index paths
             
 //            provider.removeItems([indexPath])
             
             //Or with a block, up to your need
-            provider.removeItems({ (item) -> Bool in
+            
+            provider.removeItems(removeBlock: { (item) -> Bool in
                 if let otherPerson = item.data as? Person {
                     return data.fullName() == otherPerson.fullName()
                 }
                 return false
-                }, inSection: indexPath.section)
+            }, inSection: indexPath.section)
             
-                self?.dismissViewControllerAnimated(true, completion: nil)
+//            provider.removeItems({ (item) -> Bool in
+//                if let otherPerson = item.data as? Person {
+//                    return data.fullName() == otherPerson.fullName()
+//                }
+//                return false
+//                }, inSection: indexPath.section)
+            
+                self?.dismiss(animated: true, completion: nil)
             }))
         
         
         //Dismiss view
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: {[weak self] (action) -> Void in
-            self?.dismissViewControllerAnimated(true, completion: nil)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: {[weak self] (action) -> Void in
+            self?.dismiss(animated: true, completion: nil)
         }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
 }
 

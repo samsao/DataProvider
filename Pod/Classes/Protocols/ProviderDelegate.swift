@@ -17,7 +17,7 @@ public protocol TableViewProviderDelegate : class {
      - parameter provider:  table view provider object.
      - parameter indexPath: index path of the selected item.
      */
-    func provider(provider : TableViewProvider, didSelectCellAtIndexPath indexPath : NSIndexPath)
+    func provider(provider : TableViewProvider, didSelectCellAtIndexPath indexPath : IndexPath)
     
     /**
      Called when a cell of the table view is deselected.
@@ -25,7 +25,7 @@ public protocol TableViewProviderDelegate : class {
      - parameter provider:  table view provider object.
      - parameter indexPath: index path of the selected item.
      */
-    func provider(provider : TableViewProvider, didDeselectCellAtIndexPath indexPath : NSIndexPath)
+    func provider(provider : TableViewProvider, didDeselectCellAtIndexPath indexPath : IndexPath)
 }
 
 public protocol CollectionViewProviderDelegate : class  {
@@ -35,7 +35,7 @@ public protocol CollectionViewProviderDelegate : class  {
      - parameter provider:  collection view provider.
      - parameter indexPath: index path of the selected item.
      */
-    func provider(provider : CollectionViewProvider, didSelectCellAtIndexPath indexPath : NSIndexPath)
+    func provider(provider : CollectionViewProvider, didSelectCellAtIndexPath indexPath : IndexPath)
     
     /**
      Called when a cell of the collection is deselected.
@@ -43,5 +43,5 @@ public protocol CollectionViewProviderDelegate : class  {
      - parameter provider:  collection view provider object.
      - parameter indexPath: index path of the selected item.
      */
-    func provider(provider : CollectionViewProvider, didDeselectCellAtIndexPath indexPath : NSIndexPath)
+    func provider(provider : CollectionViewProvider, didDeselectCellAtIndexPath indexPath : IndexPath)
 }
