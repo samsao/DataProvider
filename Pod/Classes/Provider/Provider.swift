@@ -6,13 +6,13 @@
 //
 //
 
-public typealias ProviderRemoveItemBlock = ((item : ProviderItem) -> Bool)
-public typealias ProviderRemoveSectionBlock = ((section : ProviderSection) -> Bool)
+public typealias ProviderRemoveItemBlock = ((_ item : ProviderItem) -> Bool)
+public typealias ProviderRemoveSectionBlock = ((_ section : ProviderSection) -> Bool)
 
-public class Provider {
+open class Provider {
     
     // MARK: Properties
-    public private(set) var sections : [ProviderSection]
+    open fileprivate(set) var sections : [ProviderSection]
     
     // MARK: Initialization
     
@@ -37,7 +37,7 @@ public class Provider {
     
     - returns: item at that index path.
     */
-    public func providerItemAtIndexPath(_ indexPath : IndexPath) -> ProviderItem? {
+    open func providerItemAtIndexPath(_ indexPath : IndexPath) -> ProviderItem? {
         if(indexPath.section < self.sections.count) {
             let section : ProviderSection = self.sections[indexPath.section]
             if(indexPath.row < section.items.count) {
@@ -82,8 +82,8 @@ public class Provider {
      
      - parameter indexes: index set with sections indexes to be deleted.
      */
-    internal func removeSections(indexes : IndexSet) {
-        self.sections.removeObjectsWith(indexSet: indexes)
+    internal func removeSections(_ indexes : IndexSet) {
+        self.sections.removeObjectsWith(indexes)
     }
     
     /**
@@ -97,12 +97,12 @@ public class Provider {
         
         for (index, section) in self.sections.enumerated() {
             
-            if removeBlock(section: section) {
+            if removeBlock(section) {
 				indexSet.insert(index)
             }
         }
 		
-        self.sections.removeObjectsWith(indexSet: indexSet)
+        self.sections.removeObjectsWith(indexSet)
         
         return indexSet
     }
@@ -143,12 +143,12 @@ public class Provider {
         
         for (index, item) in self.sections[sectionIndex].items.enumerated() {
             
-            if removeBlock(item: item) {
+            if removeBlock(item) {
                 indexSet.insert(index)
             }
         }
 		
-        self.sections[sectionIndex].items.removeObjectsWith(indexSet: indexSet)
+        self.sections[sectionIndex].items.removeObjectsWith(indexSet)
         return indexSet
     }
     

@@ -7,15 +7,15 @@
 //
 
 
-public class CollectionViewProviderDelegateHandler: NSObject, UICollectionViewDelegate {
+open class CollectionViewProviderDelegateHandler: NSObject, UICollectionViewDelegate {
     
-    public weak var provider : CollectionViewProvider!
+    open weak var provider : CollectionViewProvider!
     // MARK: UICollectionViewDelegate
-    public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         self.provider.delegate?.provider(self.provider, didDeselectCellAtIndexPath: indexPath)
     }
     
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.provider.delegate?.provider(self.provider, didSelectCellAtIndexPath: indexPath)
     }
 }

@@ -28,8 +28,8 @@ public struct ProviderSectionViewConfiguration {
 
 public struct ProviderSection {
     // MARK: Properties
-    public private(set) var headerViewConfiguration : ProviderSectionViewConfiguration?
-    public private(set) var footerViewConfiguration : ProviderSectionViewConfiguration?
+    public fileprivate(set) var headerViewConfiguration : ProviderSectionViewConfiguration?
+    public fileprivate(set) var footerViewConfiguration : ProviderSectionViewConfiguration?
     public var items : [ProviderItem]
 	
     // MARK: Intializers

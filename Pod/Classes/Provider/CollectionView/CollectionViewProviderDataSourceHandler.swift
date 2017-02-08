@@ -6,20 +6,20 @@
 //
 //
 
-public class CollectionViewProviderDataSourceHandler: NSObject, UICollectionViewDataSource {
+open class CollectionViewProviderDataSourceHandler: NSObject, UICollectionViewDataSource {
 
-    public weak var provider : CollectionViewProvider!
+    open weak var provider : CollectionViewProvider!
     
     // MARK: UICollectionViewDataSource
     
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.provider.sections[section].items.count
     }
     
-    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return self.provider.sections.count
     }
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item : ProviderItem = self.provider.sections[indexPath.section].items[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: item.cellReusableIdentifier, for: indexPath)
         

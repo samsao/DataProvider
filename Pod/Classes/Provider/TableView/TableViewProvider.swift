@@ -8,14 +8,14 @@
 
 import UIKit
 
-public class TableViewProvider : Provider {
+open class TableViewProvider : Provider {
 	
 	// MARK: Properties
 	
-	public weak var delegate : TableViewProviderDelegate?
-	private unowned var tableView : UITableView
-    private var tableViewDelegate : TableViewProviderDelegateHandler!
-    private var tableViewDataSource : TableViewProviderDataSourceHandler!
+	open weak var delegate : TableViewProviderDelegate?
+	fileprivate unowned var tableView : UITableView
+    fileprivate var tableViewDelegate : TableViewProviderDelegateHandler!
+    fileprivate var tableViewDataSource : TableViewProviderDataSourceHandler!
 	// MARK: Initialization
 	
 	/**
@@ -45,7 +45,7 @@ public class TableViewProvider : Provider {
 	- parameter sections:     sections to be added.
 	- parameter rowAnimation: UITableViewRowAnimation for the sections.
 	*/
-	public func addSections(_ sections: [ProviderSection], rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
+	open func addSections(_ sections: [ProviderSection], rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
 		let indexSet : IndexSet = super.addSections(sections)
 		self.tableView.insertSections(indexSet, with: rowAnimation)
 	}
@@ -57,7 +57,7 @@ public class TableViewProvider : Provider {
 	- parameter index:        index of the section to be added.
 	- parameter rowAnimation: UITableViewRowAnimation for section insert.
 	*/
-	public func addSection(_ section: ProviderSection, index: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
+	open func addSection(_ section: ProviderSection, index: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
 		super.addSection(section, index: index)
 		self.tableView.insertSections(IndexSet(integer: index), with: rowAnimation)
 	}
@@ -68,7 +68,7 @@ public class TableViewProvider : Provider {
 	- parameter removeBlock: block to remove the sections with. return true to remove, false otherwise.
 	- parameter rowAnimation:     UITableViewRowAnimation for the deletion.
 	*/
-	public func removeSections(rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic, removeBlock : ProviderRemoveSectionBlock) {
+	open func removeSections(_ rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic, removeBlock : ProviderRemoveSectionBlock) {
 		let indexSet : IndexSet = super.removeSections(removeBlock)
 		self.tableView.deleteSections(indexSet, with: rowAnimation)
 	}
@@ -79,8 +79,8 @@ public class TableViewProvider : Provider {
 	- parameter indexes:      index set
 	- parameter rowAnimation: UITableViewRowAnimation for the deletion.
 	*/
-	public func removeSections(indexes: IndexSet, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
-		super.removeSections(indexes : indexes)
+	open func removeSections(_ indexes: IndexSet, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
+		super.removeSections(indexes)
 		self.tableView.deleteSections(indexes, with: rowAnimation)
 	}
 	
@@ -92,7 +92,7 @@ public class TableViewProvider : Provider {
 	- parameter sectionIndex: index of section to add items.
 	- parameter rowAnimation: UITableViewRowAnimation for the insertion.
 	*/
-	public func addItemsToProvider(_ items: [ProviderItem], inSection sectionIndex: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
+	open func addItemsToProvider(_ items: [ProviderItem], inSection sectionIndex: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
 		let initialPosition = self.sections[sectionIndex].items.count
 		super.addItemsToProvider(items, inSection: sectionIndex)
 		
@@ -110,7 +110,7 @@ public class TableViewProvider : Provider {
      - parameter indexPath:    starting index path
      - parameter rowAnimation: UITableViewRowAnimation for the insertion.
      */
-    public func insertItemsToProvider(_ items: [ProviderItem], fromIndexPath indexPath: IndexPath, rowAnimation: UITableViewRowAnimation) {
+    open func insertItemsToProvider(_ items: [ProviderItem], fromIndexPath indexPath: IndexPath, rowAnimation: UITableViewRowAnimation) {
         var indexPaths = [IndexPath]()
         for (index, item) in items.enumerated() {
             let newIndexPath = IndexPath(row: indexPath.row + index, section: indexPath.section)
@@ -128,7 +128,7 @@ public class TableViewProvider : Provider {
 	- parameter indexPath:    index path to add the item.
 	- parameter rowAnimation: UITableViewRowAnimation for the insertion.
 	*/
-	public func addItemToProvider(_ item: ProviderItem, atIndexPath indexPath: IndexPath, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
+	open func addItemToProvider(_ item: ProviderItem, atIndexPath indexPath: IndexPath, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
 		super.addItemToProvider(item, atIndexPath: indexPath)
 		
 		self.tableView.insertRows(at: [indexPath], with: rowAnimation)
@@ -143,7 +143,7 @@ public class TableViewProvider : Provider {
      - parameter sectionIndex: index of the section to remove those items.
      - parameter rowAnimation: row animation for the deletion.
      */
-    public func removeItems(_ removeBlock : ProviderRemoveItemBlock, inSection sectionIndex: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic)  {
+    open func removeItems(_ removeBlock : ProviderRemoveItemBlock, inSection sectionIndex: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic)  {
         let indexSet : IndexSet = super.removeItems(removeBlock, inSection: sectionIndex)
         
         var indexPaths : [IndexPath] = []
@@ -160,7 +160,7 @@ public class TableViewProvider : Provider {
      - parameter indexPaths:   index paths of items to be removed.
      - parameter rowAnimation: row animation for the deletion.
      */
-    public func removeItems(_ indexPaths : [IndexPath], rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
+    open func removeItems(_ indexPaths : [IndexPath], rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
         super.removeItems(indexPaths)
 		
         self.tableView.deleteRows(at: indexPaths, with: rowAnimation)
@@ -168,7 +168,7 @@ public class TableViewProvider : Provider {
     
 	// MARK: Update
 	
-	override public func updateProviderData(_ newSections: [ProviderSection]) {
+	override open func updateProviderData(_ newSections: [ProviderSection]) {
 		super.updateProviderData(newSections)
 		self.tableView.reloadData()
 	}
@@ -180,7 +180,7 @@ public class TableViewProvider : Provider {
 	- parameter sectionIndex: index of the section to update.
 	- parameter rowAnimation: UITableViewRowAnimation for the operation.
 	*/
-	public func updateSectionData(_ newItems: [ProviderItem], sectionIndexToUpdate sectionIndex: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
+	open func updateSectionData(_ newItems: [ProviderItem], sectionIndexToUpdate sectionIndex: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic) {
 		super.updateSectionData(newItems, sectionIndexToUpdate: sectionIndex)
 		self.tableView.reloadSections(IndexSet(integer: sectionIndex), with: rowAnimation)
 	}
@@ -194,7 +194,7 @@ public class TableViewProvider : Provider {
 	- parameter tableView:     table view to be configured.
 	- parameter configuration: extra configuration for cells if desired.
 	*/
-	private func configureTableView (_ configuration : [ProviderConfiguration], tableDelegate : TableViewProviderDelegateHandler, tableDataSource : TableViewProviderDataSourceHandler) {
+	fileprivate func configureTableView (_ configuration : [ProviderConfiguration], tableDelegate : TableViewProviderDelegateHandler, tableDataSource : TableViewProviderDataSourceHandler) {
         
         self.tableViewDelegate = tableDelegate
         self.tableViewDataSource = tableDataSource

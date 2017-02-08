@@ -15,7 +15,7 @@ internal extension Array {
      
      - parameter indexSet: index set to remove the objects.
      */
-    mutating func removeObjectsWith(indexSet: IndexSet){
+    mutating func removeObjectsWith(_ indexSet: IndexSet){
 
         var removedIndexes = [Int]()
 		for (index, _) in indexSet.enumerated() {

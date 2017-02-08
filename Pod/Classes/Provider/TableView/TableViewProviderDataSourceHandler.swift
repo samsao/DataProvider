@@ -8,21 +8,21 @@
 
 import UIKit
 
-public class TableViewProviderDataSourceHandler : NSObject, UITableViewDataSource{
+open class TableViewProviderDataSourceHandler : NSObject, UITableViewDataSource{
     // MARK: Properties
     
-    public weak var provider : TableViewProvider!
+    open weak var provider : TableViewProvider!
     
     // MARK: UITableViewDataSource
     
-    public func numberOfSections(in tableView: UITableView) -> Int {
+    open func numberOfSections(in tableView: UITableView) -> Int {
         return self.provider.sections.count
     }
     
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.provider.sections[section].items.count
     }
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let providerItem : ProviderItem = self.provider.sections[indexPath.section].items[indexPath.row]
         

@@ -1,11 +1,11 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
-target 'DataProvider_Example', :exclusive => true do
+target 'DataProvider_Example' do
   pod "DataProvider", :path => "../"
 end
 
-target 'DataProvider_Tests', :exclusive => true do
+target 'DataProvider_Tests' do
   pod "DataProvider", :path => "../"
 
   

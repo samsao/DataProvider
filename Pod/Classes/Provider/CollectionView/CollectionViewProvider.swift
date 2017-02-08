@@ -8,15 +8,15 @@
 
 import UIKit
 
-public class CollectionViewProvider: Provider {
+open class CollectionViewProvider: Provider {
 	
 	// MARK: Properties
 	
-	public weak var delegate : CollectionViewProviderDelegate?
-	private unowned var collectionView : UICollectionView
+	open weak var delegate : CollectionViewProviderDelegate?
+	fileprivate unowned var collectionView : UICollectionView
     
-    private var collectionDelegate : CollectionViewProviderDelegateHandler!
-    private var collectionDataSource : CollectionViewProviderDataSourceHandler!
+    fileprivate var collectionDelegate : CollectionViewProviderDelegateHandler!
+    fileprivate var collectionDataSource : CollectionViewProviderDataSourceHandler!
     
 	// MARK: Initialization
 	
@@ -44,7 +44,7 @@ public class CollectionViewProvider: Provider {
 	
 	- parameter sections:     sections to be added.
 	*/
-	public func addSections(_ sections: [ProviderSection]) {
+	open func addSections(_ sections: [ProviderSection]) {
 		let indexSet : IndexSet = super.addSections(sections)
 		self.collectionView.insertSections(indexSet)
 	}
@@ -55,7 +55,7 @@ public class CollectionViewProvider: Provider {
 	- parameter section:      section to be added.
 	- parameter index:        index of the section to be added.
 	*/
-	override public func addSection(_ section: ProviderSection, index: Int) {
+	override open func addSection(_ section: ProviderSection, index: Int) {
 		super.addSection(section, index: index)
 		self.collectionView.insertSections(IndexSet(integer: index))
 	}
@@ -65,7 +65,7 @@ public class CollectionViewProvider: Provider {
 	
 	- parameter removeBlock: block to remove the sections with. return true to remove, false otherwise.
 	*/
-	public func removeSections(_ removeBlock : ProviderRemoveSectionBlock) {
+	open func removeSections(_ removeBlock : ProviderRemoveSectionBlock) {
 		let indexSet : IndexSet = super.removeSections(removeBlock)
 		self.collectionView.deleteSections(indexSet)
 	}
@@ -75,8 +75,8 @@ public class CollectionViewProvider: Provider {
 	
 	- parameter indexes:      index set
 	*/
-	override public func removeSections(indexes: IndexSet) {
-		super.removeSections(indexes: indexes)
+	override open func removeSections(_ indexes: IndexSet) {
+		super.removeSections(indexes)
 		self.collectionView.deleteSections(indexes)
 	}
 	
@@ -87,7 +87,7 @@ public class CollectionViewProvider: Provider {
 	- parameter items:        items to be added.
 	- parameter sectionIndex: index of section to add items.
 	*/
-	override public func addItemsToProvider(_ items: [ProviderItem], inSection sectionIndex: Int) {
+	override open func addItemsToProvider(_ items: [ProviderItem], inSection sectionIndex: Int) {
 		let initialPosition = self.sections[sectionIndex].items.count
 		super.addItemsToProvider(items, inSection: sectionIndex)
 		
@@ -106,7 +106,7 @@ public class CollectionViewProvider: Provider {
      - parameter items:        items to be inserted
      - parameter indexPath:    starting index path
      */
-    public func insertItemsToProvider(_ items: [ProviderItem], fromIndexPath indexPath: IndexPath) {
+    open func insertItemsToProvider(_ items: [ProviderItem], fromIndexPath indexPath: IndexPath) {
         var indexPaths = [IndexPath]()
         for (index, item) in items.enumerated() {
             let newIndexPath = IndexPath(row: indexPath.row + index, section: indexPath.section)
@@ -124,7 +124,7 @@ public class CollectionViewProvider: Provider {
 	- parameter item:         item to be added.
 	- parameter indexPath:    index path to add the item.
 	*/
-	override public func addItemToProvider(_ item: ProviderItem, atIndexPath indexPath: IndexPath) {
+	override open func addItemToProvider(_ item: ProviderItem, atIndexPath indexPath: IndexPath) {
 		super.addItemToProvider(item, atIndexPath: indexPath)
 		self.collectionView.performBatchUpdates({ () -> Void in
 			self.collectionView.insertItems(at: [indexPath])
@@ -137,7 +137,7 @@ public class CollectionViewProvider: Provider {
      - parameter removeBlock:  Items to be removed from section.
      - parameter sectionIndex: index of the section to remove those items.
      */
-    public func removeItems(_ removeBlock : ProviderRemoveItemBlock, inSection sectionIndex: Int)  {
+    open func removeItems(_ removeBlock : ProviderRemoveItemBlock, inSection sectionIndex: Int)  {
         let indexSet : IndexSet = super.removeItems(removeBlock, inSection: sectionIndex)
         
         var indexPaths : [IndexPath] = []
@@ -153,7 +153,7 @@ public class CollectionViewProvider: Provider {
      
      - parameter indexPaths:   index paths of items to be removed.
      */
-    public override func removeItems(_ indexPaths : [IndexPath]) {
+    open override func removeItems(_ indexPaths : [IndexPath]) {
         super.removeItems(indexPaths)
         
         self.collectionView.performBatchUpdates({ 
@@ -162,7 +162,7 @@ public class CollectionViewProvider: Provider {
     }
 	// MARK: Update
 	
-	override public func updateProviderData(_ newSections: [ProviderSection]) {
+	override open func updateProviderData(_ newSections: [ProviderSection]) {
 		super.updateProviderData(newSections)
 		self.collectionView.reloadData()
 	}
@@ -173,7 +173,7 @@ public class CollectionViewProvider: Provider {
 	- parameter newItems:     new items for the section
 	- parameter sectionIndex: index of the section to update.
 	*/
-	override public func updateSectionData(_ newItems: [ProviderItem], sectionIndexToUpdate sectionIndex: Int) {
+	override open func updateSectionData(_ newItems: [ProviderItem], sectionIndexToUpdate sectionIndex: Int) {
 		super.updateSectionData(newItems, sectionIndexToUpdate: sectionIndex)
 		self.collectionView.reloadSections(IndexSet(integer: sectionIndex))
 	}
@@ -187,7 +187,7 @@ public class CollectionViewProvider: Provider {
 	- parameter collectionView: collection view to configure.
 	- parameter configuration:  provider cell configuration
 	*/
-    private func configureCollectionView(_ configuration : [ProviderConfiguration],
+    fileprivate func configureCollectionView(_ configuration : [ProviderConfiguration],
                                          collectionDelegate : CollectionViewProviderDelegateHandler, collectionDataSource : CollectionViewProviderDataSourceHandler) {
         
         collectionDelegate.provider = self

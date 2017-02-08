@@ -10,8 +10,8 @@ import Foundation
 
 public struct ProviderItem {
     // MARK: Properties
-    public private(set) var cellReusableIdentifier : String
-    public private(set) var data: Any
+    public fileprivate(set) var cellReusableIdentifier : String
+    public fileprivate(set) var data: Any
    
     // MARK: Initializers
     /**

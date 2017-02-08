@@ -18,22 +18,22 @@ class CollectionViewExampleController: UIViewController {
         createCollectionView()
         createProvider()
         
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(CollectionViewExampleController.addPerson)), UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: #selector(CollectionViewExampleController.resetData))]
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(CollectionViewExampleController.addPerson)), UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(CollectionViewExampleController.resetData))]
         
     }
     
-    private func createCollectionView() {
+    fileprivate func createCollectionView() {
         
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = UICollectionViewScrollDirection.Vertical
+        layout.scrollDirection = UICollectionViewScrollDirection.vertical
         layout.itemSize = CGSize(width: view.frame.size.width,height: 100)
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         self.collectionView = collectionView
-        collectionView.backgroundColor = UIColor.whiteColor()
+        collectionView.backgroundColor = UIColor.white
         view.addSubview(collectionView)
     }
     
-    private func createProvider() {
+    fileprivate func createProvider() {
         let providerConfig = ProviderConfiguration(reuseIdentifier: kCellRID, cellClass: CustomCollectionCell.self)
         let items = ProviderItem.itemsCollectionWithData(Person.peopleCollection(), cellReuseIdentifier: kCellRID)
         let section = ProviderSection.init(items: items)
@@ -42,7 +42,7 @@ class CollectionViewExampleController: UIViewController {
     }
     
     func addPerson() {
-        let item = ProviderItem(data: Person(name: "PersonName", lastName: "\(NSDate())"), cellReuseIdentifier: kCellRID)
+        let item = ProviderItem(data: Person(name: "PersonName", lastName: "\(Date())"), cellReuseIdentifier: kCellRID)
         provider.addItemsToProvider([item], inSection: 0)
     }
     
@@ -57,27 +57,27 @@ class CollectionViewExampleController: UIViewController {
 }
 
 extension CollectionViewExampleController : CollectionViewProviderDelegate {
-    func provider(provider: CollectionViewProvider, didDeselectCellAtIndexPath indexPath: NSIndexPath) {
+    func provider(_ provider: CollectionViewProvider, didDeselectCellAtIndexPath indexPath: IndexPath) {
         
     }
     
 
-    func provider(provider: CollectionViewProvider, didSelectCellAtIndexPath indexPath: NSIndexPath) {
+    func provider(_ provider: CollectionViewProvider, didSelectCellAtIndexPath indexPath: IndexPath) {
         let item : ProviderItem = provider.providerItemAtIndexPath(indexPath)!
         let data = item.data as! Person
         
-        let alert = UIAlertController(title: "selected cell", message: "person name: \(data.name,data.lastName)", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "selected cell", message: "person name: \(data.name,data.lastName)", preferredStyle: UIAlertControllerStyle.alert)
         
         //Delete row
-        alert.addAction(UIAlertAction(title: "Delete Cell", style: UIAlertActionStyle.Destructive, handler: {[weak self] (action) -> Void in
+        alert.addAction(UIAlertAction(title: "Delete Cell", style: UIAlertActionStyle.destructive, handler: {[weak self] (action) -> Void in
             provider.removeItems([indexPath])
-            self?.dismissViewControllerAnimated(true, completion: nil)
+            self?.dismiss(animated: true, completion: nil)
             }))
         
         //Dismiss view
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: {[weak self] (action) -> Void in
-            self?.dismissViewControllerAnimated(true, completion: nil)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: {[weak self] (action) -> Void in
+            self?.dismiss(animated: true, completion: nil)
             }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
 }

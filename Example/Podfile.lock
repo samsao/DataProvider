@@ -1,14 +1,16 @@
 PODS:
-  - DataProvider (0.1.0)
+  - DataProvider (1.0.0)
 
 DEPENDENCIES:
   - DataProvider (from `../`)
 
 EXTERNAL SOURCES:
   DataProvider:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
-  DataProvider: 78db95bd0b83ed2d84c337bc95b1631b93e05e39
+  DataProvider: 71b44ec08a2eab9dd0a436967b19a21622d30949
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 41bd7e53e36cfd8d48ebfb3b87cb391db675425f
+
+COCOAPODS: 1.2.0
