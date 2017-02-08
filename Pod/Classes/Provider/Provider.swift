@@ -137,7 +137,7 @@ open class Provider {
      
      - returns: indexes of the deleted items in the section.
      */
-    internal func removeItems(_ removeBlock : ProviderRemoveItemBlock, inSection sectionIndex : Int) -> IndexSet{
+    internal func removeItems(removeBlock : ProviderRemoveItemBlock, inSection sectionIndex : Int) -> IndexSet{
         
         var indexSet = IndexSet()
         

@@ -13,8 +13,8 @@ let kCellRID : String = "MycellRID"
 
 class TableViewExampleController: UIViewController {
     
-    fileprivate var tableView : UITableView!
-    fileprivate var provider : TableViewProvider!
+    private var tableView : UITableView!
+    private var provider : TableViewProvider!
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -35,14 +35,14 @@ class TableViewExampleController: UIViewController {
     /**
      Example of how to create section header/Footer view configuration to be used in the table view.
      */
-    fileprivate func createSectionViewConfig(_ text : String, bgColor : UIColor) -> ProviderSectionViewConfiguration {
+    private func createSectionViewConfig(text : String, bgColor : UIColor) -> ProviderSectionViewConfiguration {
         
         //Create your view as needed.
         let view = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 50))
         view.backgroundColor = bgColor
         let label = UILabel(frame: view.frame)
         label.text = text
-        label.textColor = UIColor.white
+        label.textColor = .white
         view.addSubview(label)
         
         //Initialize the configuration sending your view as parameter. You can also set a custom height for the configuration in case your view uses autolayout
@@ -51,19 +51,19 @@ class TableViewExampleController: UIViewController {
     }
     
     func addPerson() {
-        let item = ProviderItem(data: Person(name: "PersonName", lastName: "\(Date())"), cellReuseIdentifier: kCellRID)
+        let item = ProviderItem(data: Person(name: "PersonName", lastName: "\(NSDate())"), cellReuseIdentifier: kCellRID)
         provider.addItemsToProvider([item], inSection: 0, rowAnimation: UITableViewRowAnimation.automatic)
     }
     
     func resetData() {
-        let headerConfig = self.createSectionViewConfig("Section 1 Header", bgColor: UIColor.black)
-        let footerConfig = self.createSectionViewConfig("Section 1 Footer", bgColor: UIColor.lightGray)
+        let headerConfig = self.createSectionViewConfig(text: "Section 1 Header", bgColor: UIColor.black)
+        let footerConfig = self.createSectionViewConfig(text: "Section 1 Footer", bgColor: .lightGray)
         let section1 = ProviderSection(items: ProviderItem.itemsCollectionWithData(Person.peopleCollection(), cellReuseIdentifier: kCellRID), headerViewConfig: headerConfig, footerViewConfig: footerConfig)
         
         
         
-        let headerConfig2 = self.createSectionViewConfig("Section 2 Header", bgColor: UIColor.black)
-        let footerConfig2 = self.createSectionViewConfig("Section 2 Footer", bgColor: UIColor.lightGray)
+        let headerConfig2 = self.createSectionViewConfig(text: "Section 2 Header", bgColor: .black)
+        let footerConfig2 = self.createSectionViewConfig(text: "Section 2 Footer", bgColor: .lightGray)
         let section2 = ProviderSection(items: ProviderItem.itemsCollectionWithData(Person.peopleCollection(), cellReuseIdentifier: kCellRID), headerViewConfig: headerConfig2, footerViewConfig: footerConfig2)
         
         
@@ -71,7 +71,7 @@ class TableViewExampleController: UIViewController {
         provider.updateProviderData([section1,section2])
     }
     
-    fileprivate func createProvider() {
+    private func createProvider() {
         let data = Person.peopleCollection()
         
         //Create the items and sections for the provider to use.
@@ -88,12 +88,19 @@ class TableViewExampleController: UIViewController {
 }
 
 extension TableViewExampleController : TableViewProviderDelegate {
-    func provider(_ provider: TableViewProvider, didDeselectCellAtIndexPath indexPath: IndexPath) {
+    /**
+     Called when a cell of the table view is deselected.
+     
+     - parameter provider:  table view provider object.
+     - parameter indexPath: index path of the selected item.
+     */
+
+    public func provider(_ provider: TableViewProvider, didDeselectCellAtIndexPath indexPath: IndexPath) {
         
     }
-    
-    func provider(_ provider : TableViewProvider, didSelectCellAtIndexPath indexPath : IndexPath) {
-        let item : ProviderItem = provider.providerItemAtIndexPath(indexPath)!
+
+    public func provider(_ provider: TableViewProvider, didSelectCellAtIndexPath indexPath: IndexPath) {
+        let item: ProviderItem = provider.providerItemAtIndexPath(indexPath)!
         let data = item.data as! Person
         
         let alert = UIAlertController(title: "selected cell", message: "person name: \(data.name,data.lastName)", preferredStyle: UIAlertControllerStyle.alert)
@@ -105,12 +112,20 @@ extension TableViewExampleController : TableViewProviderDelegate {
 //            provider.removeItems([indexPath])
             
             //Or with a block, up to your need
-            provider.removeItems({ (item) -> Bool in
+            
+            provider.removeItems(removeBlock: { (item) -> Bool in
                 if let otherPerson = item.data as? Person {
                     return data.fullName() == otherPerson.fullName()
                 }
                 return false
-                }, inSection: indexPath.section)
+            }, inSection: indexPath.section)
+            
+//            provider.removeItems({ (item) -> Bool in
+//                if let otherPerson = item.data as? Person {
+//                    return data.fullName() == otherPerson.fullName()
+//                }
+//                return false
+//                }, inSection: indexPath.section)
             
                 self?.dismiss(animated: true, completion: nil)
             }))

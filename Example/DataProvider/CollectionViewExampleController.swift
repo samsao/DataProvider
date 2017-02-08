@@ -22,18 +22,18 @@ class CollectionViewExampleController: UIViewController {
         
     }
     
-    fileprivate func createCollectionView() {
+    private func createCollectionView() {
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = UICollectionViewScrollDirection.vertical
         layout.itemSize = CGSize(width: view.frame.size.width,height: 100)
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         self.collectionView = collectionView
-        collectionView.backgroundColor = UIColor.white
+        collectionView.backgroundColor = .white
         view.addSubview(collectionView)
     }
     
-    fileprivate func createProvider() {
+    private func createProvider() {
         let providerConfig = ProviderConfiguration(reuseIdentifier: kCellRID, cellClass: CustomCollectionCell.self)
         let items = ProviderItem.itemsCollectionWithData(Person.peopleCollection(), cellReuseIdentifier: kCellRID)
         let section = ProviderSection.init(items: items)
@@ -42,7 +42,7 @@ class CollectionViewExampleController: UIViewController {
     }
     
     func addPerson() {
-        let item = ProviderItem(data: Person(name: "PersonName", lastName: "\(Date())"), cellReuseIdentifier: kCellRID)
+        let item = ProviderItem(data: Person(name: "PersonName", lastName: "\(NSDate())"), cellReuseIdentifier: kCellRID)
         provider.addItemsToProvider([item], inSection: 0)
     }
     
@@ -57,12 +57,27 @@ class CollectionViewExampleController: UIViewController {
 }
 
 extension CollectionViewExampleController : CollectionViewProviderDelegate {
-    func provider(_ provider: CollectionViewProvider, didDeselectCellAtIndexPath indexPath: IndexPath) {
-        
-    }
-    
+    /**
+     Called when a cell of the collection is deselected.
+     
+     - parameter provider:  collection view provider object.
+     - parameter indexPath: index path of the selected item.
+     */
+	public func provider(_ provider: CollectionViewProvider, didDeselectCellAtIndexPath indexPath: IndexPath) {
 
-    func provider(_ provider: CollectionViewProvider, didSelectCellAtIndexPath indexPath: IndexPath) {
+	}
+
+	public func provider(_ provider: CollectionViewProvider, didSelectCellAtIndexPath indexPath: IndexPath) {
+
+	}
+
+    /**
+     Called when a cell of the collection view is selected.
+     
+     - parameter provider:  collection view provider.
+     - parameter indexPath: index path of the selected item.
+     */
+    public func provider(provider: CollectionViewProvider, didSelectCellAtIndexPath indexPath: IndexPath) {
         let item : ProviderItem = provider.providerItemAtIndexPath(indexPath)!
         let data = item.data as! Person
         
@@ -80,4 +95,6 @@ extension CollectionViewExampleController : CollectionViewProviderDelegate {
             }))
         self.present(alert, animated: true, completion: nil)
     }
+
+
 }

@@ -143,8 +143,8 @@ open class TableViewProvider : Provider {
      - parameter sectionIndex: index of the section to remove those items.
      - parameter rowAnimation: row animation for the deletion.
      */
-    open func removeItems(_ removeBlock : ProviderRemoveItemBlock, inSection sectionIndex: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic)  {
-        let indexSet : IndexSet = super.removeItems(removeBlock, inSection: sectionIndex)
+    open func removeItems(removeBlock : ProviderRemoveItemBlock, inSection sectionIndex: Int, rowAnimation : UITableViewRowAnimation = UITableViewRowAnimation.automatic)  {
+        let indexSet : IndexSet = super.removeItems(removeBlock: removeBlock, inSection: sectionIndex)
         
         var indexPaths : [IndexPath] = []
 		for (index, _) in indexSet.enumerated() {

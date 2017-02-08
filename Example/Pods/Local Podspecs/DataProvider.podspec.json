@@ -1,6 +1,6 @@
 {
   "name": "DataProvider",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "summary": "Data provider is a library made to abstract Table and Collection views boilerplate code. It's all made in Swift!",
   "homepage": "https://github.com/samsao/DataProvider.git",
   "license": "MIT",
@@ -9,7 +9,7 @@
   },
   "source": {
     "git": "https://github.com/samsao/DataProvider.git",
-    "tag": "1.0.0"
+    "tag": "2.0.0"
   },
   "platforms": {
     "ios": "8.0"

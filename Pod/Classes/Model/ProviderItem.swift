@@ -22,7 +22,7 @@ public struct ProviderItem {
      
      - returns: instance of a provider item
      */
-    public init(data : Any, cellReuseIdentifier : String) {
+    public init<T>(data : T, cellReuseIdentifier : String) {
         self.data = data
         self.cellReusableIdentifier = cellReuseIdentifier
     }

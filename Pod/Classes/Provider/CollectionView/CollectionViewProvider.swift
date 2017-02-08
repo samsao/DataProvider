@@ -137,8 +137,8 @@ open class CollectionViewProvider: Provider {
      - parameter removeBlock:  Items to be removed from section.
      - parameter sectionIndex: index of the section to remove those items.
      */
-    open func removeItems(_ removeBlock : ProviderRemoveItemBlock, inSection sectionIndex: Int)  {
-        let indexSet : IndexSet = super.removeItems(removeBlock, inSection: sectionIndex)
+    open func removeItems(removeBlock : ProviderRemoveItemBlock, inSection sectionIndex: Int)  {
+        let indexSet : IndexSet = super.removeItems(removeBlock: removeBlock, inSection: sectionIndex)
         
         var indexPaths : [IndexPath] = []
 		for (index, _) in indexSet.enumerated() {
