@@ -1,13 +1,29 @@
-# references:
-# * http://www.objc.io/issue-6/travis-ci.html
-# * https://github.com/supermarin/xcpretty#usage
+language: swift
 
-language: objective-c
-# cache: cocoapods
-# podfile: Example/Podfile
-# before_install:
-# - gem install cocoapods # Since Travis is not always on latest version
-# - pod install --project-directory=Example
-script:
-- set -o pipefail && xcodebuild test -workspace Example/DataProvider.xcworkspace -scheme DataProvider-Example -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty
-- pod lib lint
+cache:
+  - bundler
+  - cocoapods
+osx_image: xcode8.1
+
+git:
+  depth: 3
+
+before_install:
+  - brew update
+  - brew outdated xctool || brew upgrade xctool
+  - gem install cocoapods -v 1.2.0
+  - gem install xcpretty -v 0.2.4
+  - gem install xcpretty-travis-formatter
+  - xcrun simctl list
+
+install: true
+
+env:
+  - MODE=cocoapods-lint
+
+script: ./build.sh $MODE
+
+# whitelist
+branches:
+  only:
+    - master
